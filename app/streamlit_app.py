@@ -60,11 +60,21 @@ st.markdown("""
 
 
 #Model loading
+import os
+
 @st.cache_resource
 def load_model():
-    model = DistilBertForSequenceClassification.from_pretrained("../models/distilbert")
-    tokenizer = DistilBertTokenizer.from_pretrained("../models/distilbert")
+    base_path = os.path.dirname(os.path.abspath(__file__))  
+    model_path = os.path.join(base_path, "..", "models", "distilbert")  
+    
+    model_path = os.path.realpath(model_path)  
+    
+    print("Loading from:", model_path)  
+    
+    model = DistilBertForSequenceClassification.from_pretrained(model_path)
+    tokenizer = DistilBertTokenizer.from_pretrained(model_path)
     return model, tokenizer
+
 
 model, tokenizer = load_model()
 
