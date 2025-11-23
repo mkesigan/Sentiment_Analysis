@@ -1,0 +1,25 @@
+torch
+transformers
+datasets
+sentencepiece
+
+# Data processing
+pandas
+numpy
+scikit-learn
+
+# Evaluation
+matplotlib
+seaborn
+
+# Web API
+fastapi
+uvicorn[standard]
+pydantic
+
+# Streamlit UI
+streamlit
+
+# Utilities
+python-dotenv
+tqdm
