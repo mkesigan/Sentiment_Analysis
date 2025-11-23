@@ -1,10 +1,11 @@
-# 🌐 Twitter Sentiment Analysis (DistilBERT + FastAPI + Docker)
+# 🌐 Twitter Sentiment Analysis (DistilBERT + FastAPI + React)
 
-![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.95-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-24.0-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
-![Streamlit](https://img.shields.io/badge/Streamlit-1.22-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.95-009688?style=for-the-badge&logo=fastapi)
+![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)
+![Tailwind](https://img.shields.io/badge/TailwindCSS-3.4-38BDF8?style=for-the-badge&logo=tailwindcss)
+![HuggingFace](https://img.shields.io/badge/Transformers-DistilBERT-FFD21E?style=for-the-badge&logo=huggingface)
+
 
 This is a complete **industry-grade NLP project**, built using modern machine learning, production engineering, and deployment practices. It is portfolio-ready and designed to demonstrate full-stack AI engineering skills.
 
@@ -13,7 +14,6 @@ This is a complete **industry-grade NLP project**, built using modern machine le
 *   ✔ **Full ML Pipeline:** EDA → Preprocess → Train → Evaluate → Predict → Deploy.
 *   ✔ **FastAPI Backend:** High-performance asynchronous inference API.
 *   ✔ **Dockerized:** Containerized for consistent deployment anywhere.
-*   ✔ **Streamlit UI:** Interactive frontend for testing and visualization.
 *   ✔ **Modular Code:** Clean, structured, and maintainable codebase.
 
 ---
@@ -21,31 +21,28 @@ This is a complete **industry-grade NLP project**, built using modern machine le
 ## 📁 Project Structure
 
 ```text
-sentiment-bert-project/
-│── api/
-│   └── main.py                    # FastAPI service
+sentiment-analysis/
+│── api/                      # FastAPI backend
+│   ├── main.py
+│   └── predict.py
 │
-│── src/
-│   ├── data_preprocessing.py      # Clean + split dataset
-│   ├── train_model.py             # DistilBERT fine-tuning
-│   ├── evaluate_model.py          # Metrics + confusion matrix
-│   ├── predict.py                 # Inference logic used by API/UI
-│   ├── ensemble.py                # (Optional) Voting / Stacking ensemble
-│   └── utils.py                   # Helper functions
+│── sentiment-ui/             # React frontend
+│   ├── src/
+│   │   ├── App.js
+│   │   └── index.css
+│   └── package.json
 │
-│── app/
-│   └── streamlit_app.py           # Optional Streamlit frontend UI
+│── src/                      # ML pipeline
+│   ├── train_model.py
+│   ├── data_preprocessing.py
+│   ├── evaluate_model.py
+│   └── predict.py
 │
 │── models/
-│   └── distilbert/                # Saved fine-tuned model + tokenizer
+│   └── distilbert/
 │
-│── data/
-│   ├── sentiment140.csv           # Raw dataset (Git ignored)
-│   └── processed/                 # train.csv / val.csv / test.csv
-│
-│── Dockerfile                     # Production-ready container image
-│── requirements.txt               # Python dependencies
-│── README.md                      # Project documentation
+│── requirements.txt
+│── README.md
 
 ```
 
@@ -100,11 +97,14 @@ Endpoints:
 * GET /: Health check.
 * POST /predict: Predict sentiment for input text.
 
-8. Streamlit UI
+8. React.js UI
 An interactive dashboard for testing the model.
 Run UI:
 ```Bash
-streamlit run app/streamlit_app.py
+cd sentiment-ui
+npm install
+npm start
+# Runs at http://localhost:3000
 ```
 *Features: Real-time prediction, Confidence visualization, Wordclouds, Batch CSV processing.
 
@@ -122,24 +122,35 @@ docker run -p 8000:8000 sentiment-api
 ```Bash
 Go to http://localhost:8000/docs
 ```
+### API Documentation
+```Bash
+POST /predict
+{
+  "text": "I love this!"
+}
 
-### ☁️ Deployment Options
-1.Google Cloud Run (Recommended): Serverless, auto-scaling, direct Docker support.
-2.Render / Railway: Easiest for quick demos.
-3.AWS EC2 / ECS: Full control for enterprise scaling.
+Response:
+{
+  "text": "I love this!",
+  "clean_text": "i love this",
+  "sentiment": "positive",
+  "confidence": 0.97
+}
 
+```
 ### 📊 Dataset
 Sentiment140 Dataset (1.6M Tweets)
 * Labels: 0 (Negative), 4 (Positive)
 * Source: Kaggle
 
 ### 🧠 Skills Demonstrated
-**Category	          Skills**
-**Machine Learning**	Text Cleaning, Tokenization, Transformer Fine-tuning, Evaluation Metrics, Ensemble Learning
-**Backend**           Dev	FastAPI, Async Endpoints, Model Serving
-**DevOps**	          Docker, Containerization, Environment Isolation
-**Frontend**	        Streamlit, Data Visualization
-**Engineering**	      Modular Code Structure, Git Version Control, Clean Documentation
+**Category	           Skills**
+**Machine Learning**   Text Cleaning, Tokenization, Transformer Fine-tuning, Evaluation Metrics,DistilBERT fine-tuning, tokenization
+**Backend**            FastAPI, REST API, CORS
+**DevOps**	           Docker, Containerization, Environment Isolation
+**Frontend**	       React.js, Tailwind CSS, Chart.js visualization
+**Engineering**	       Modular Code Structure, Git Version Control, Clean Documentation
+
 
 ### 🚀 Quick Start
 1.Clone the repository:
@@ -168,10 +179,3 @@ python src/train_model.py
 ```Bashdocker build -t sentiment-api .
 docker run -p 8000:8000 sentiment-api
 ```
-## 🚀 Live Demo
-
-🔗 **Try the App Here:**  
-https://sentiment5analysis.streamlit.app/
-
-
-**License**: This project uses the publicly available Sentiment140 dataset.
