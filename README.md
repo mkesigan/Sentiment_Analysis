@@ -1,20 +1,26 @@
-🌐 Twitter Sentiment Analysis using DistilBERT + FastAPI + Docker + Streamlit (End-to-End ML Project)
+# 🌐 Twitter Sentiment Analysis (DistilBERT + FastAPI + Docker)
 
-This is a complete industry-grade NLP project, built using modern machine learning, production engineering, and deployment practices.
+![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.95-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-24.0-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.22-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 
-It includes:
+This is a complete **industry-grade NLP project**, built using modern machine learning, production engineering, and deployment practices. It is portfolio-ready and designed to demonstrate full-stack AI engineering skills.
 
-✔ DistilBERT fine-tuning
-✔ Full ML pipeline (EDA → Preprocess → Train → Evaluate → Predict → Deploy)
-✔ FastAPI inference backend
-✔ Docker containerization
-✔ Optional Streamlit UI
-✔ Clean modular code structure
-✔ Cloud deployable (Google Cloud Run / Render / Railway)
+### 🚀 Key Features
+*   ✔ **DistilBERT Fine-tuning:** Customized transformer model for sentiment classification.
+*   ✔ **Full ML Pipeline:** EDA → Preprocess → Train → Evaluate → Predict → Deploy.
+*   ✔ **FastAPI Backend:** High-performance asynchronous inference API.
+*   ✔ **Dockerized:** Containerized for consistent deployment anywhere.
+*   ✔ **Streamlit UI:** Interactive frontend for testing and visualization.
+*   ✔ **Modular Code:** Clean, structured, and maintainable codebase.
 
-This project is portfolio-ready and ideal for AI/ML internship applications.
+---
 
-📁 Project Structure
+## 📁 Project Structure
+
+```text
 sentiment-bert-project/
 │── api/
 │   └── main.py                    # FastAPI service
@@ -25,6 +31,7 @@ sentiment-bert-project/
 │   ├── evaluate_model.py          # Metrics + confusion matrix
 │   ├── predict.py                 # Inference logic used by API/UI
 │   ├── ensemble.py                # (Optional) Voting / Stacking ensemble
+│   └── utils.py                   # Helper functions
 │
 │── app/
 │   └── streamlit_app.py           # Optional Streamlit frontend UI
@@ -33,291 +40,133 @@ sentiment-bert-project/
 │   └── distilbert/                # Saved fine-tuned model + tokenizer
 │
 │── data/
-│   ├── sentiment140.csv           # Raw dataset
+│   ├── sentiment140.csv           # Raw dataset (Git ignored)
 │   └── processed/                 # train.csv / val.csv / test.csv
 │
-│── Dockerfile                     # Production-ready container
+│── Dockerfile                     # Production-ready container image
 │── requirements.txt               # Python dependencies
 │── README.md                      # Project documentation
 
-🔄 Full Machine Learning Workflow
+```
+
+### 🔄 Full Machine Learning Workflow
 1. Exploratory Data Analysis (EDA)
+Notebook: notebooks/01_EDA_sentiment140.ipynb
+* Analysis: Dataset overview, Null/duplicate detection, Class distribution, Tweet length analysis, Word clouds.
+* Note: EDA is only for analysis — no cleaning happens in this step.
 
-Notebook:
-notebooks/01_EDA_sentiment140.ipynb
-
-Includes:
-
-Dataset overview
-
-Null/duplicate detection
-
-Class distribution
-
-Tweet length analysis
-
-Word clouds
-
-💡 EDA is only for analysis — no cleaning in this step.
-
-2. Preprocessing Pipeline (Production Cleaning)
-
-Run:
-
+2. Preprocessing Pipeline
+Cleans text (removes URLs, mentions, emojis), handles lowercasing, and performs a stratified Train/Val/Test split.
+```Bash
 python src/data_preprocessing.py
-
-
-Tasks:
-
-Remove URLs, mentions, emojis
-
-Remove punctuation and unnecessary characters
-
-Lowercasing
-
-Stratified Train/Val/Test split
-
+```
 Saves to: data/processed/
 
 3. Train the DistilBERT Model
-
-Run:
-
+Fine-tunes a DistilBERT model using the HuggingFace Trainer API with validation per epoch.
+```Bash
 python src/train_model.py
-
-
-Includes:
-
-Tokenization
-
-Dataset creation
-
-HuggingFace Trainer
-
-Validation per epoch
-
+```
 Saves model to: models/distilbert/
 
 4. Model Evaluation
-
-Run:
-
+Generates accuracy metrics, precision/recall/F1 scores, and a confusion matrix.
 python src/evaluate_model.py
 
-
-Generates:
-
-Accuracy
-
-Precision, Recall, F1
-
-Confusion matrix PNG
-
-CSV with predictions
-
-Misclassified samples
-
 5. Ensemble Learning (Optional)
-
-Run:
-
+Supports Hard voting, Soft voting, and Stacking to boost predictive performance.
+```Bash
 python src/ensemble.py
+```
 
-
-Supports:
-
-Hard voting
-
-Soft voting
-
-Stacking
-
-Boosts predictive performance.
-
-6. Inference Script (Core Engine for API/UI)
-
-Run:
-
+6. Inference Script
+The core engine for prediction. It cleans text, tokenizes, and returns sentiment + confidence.
+```Bash
 python src/predict.py
+```
 
-
-Features:
-
-Clean text
-
-Tokenize
-
-Predict sentiment + confidence
-
-Supports single or batch prediction
-
-Used directly by:
-
-FastAPI backend
-
-Streamlit UI
-
-Docker container
-
-Cloud deployment
-
-7. FastAPI Backend (Production API)
-
+### 🛠️ API & Frontend
+7. FastAPI Backend
+The production-ready backend API.
 Run locally:
-
+```Bash
 cd api
-python main.py
-
-
-API URLs:
-
-http://127.0.0.1:8000
-http://127.0.0.1:8000/docs
-
-
+uvicorn main:app --reload
+```
+* Access API: http://127.0.0.1:8000
+* Swagger Docs: http://127.0.0.1:8000/docs
+  
 Endpoints:
+* GET /: Health check.
+* POST /predict: Predict sentiment for input text.
 
-GET / → health check
-
-POST /predict → predict sentiment
-
-8. Streamlit UI (Optional Frontend)
-
-Run:
-
+8. Streamlit UI
+An interactive dashboard for testing the model.
+Run UI:
+```Bash
 streamlit run app/streamlit_app.py
+```
+*Features: Real-time prediction, Confidence visualization, Wordclouds, Batch CSV processing.
 
-
-Features:
-
-Text input sentiment prediction
-
-Confidence score visualization
-
-Sentiment distribution
-
-Wordcloud
-
-CSV batch prediction
-
-📦 Docker Containerization
-
-Build image:
-
+### 📦 Docker Containerization
+To run the entire application in an isolated container:
+1. Build the image:
+```Bash
 docker build -t sentiment-api .
-
-
-Run container:
-
+```
+2. Run the container:
+```Bash
 docker run -p 8000:8000 sentiment-api
+```
+3. Access:
+```Bash
+Go to http://localhost:8000/docs
+```
 
+### ☁️ Deployment Options
+1.Google Cloud Run (Recommended): Serverless, auto-scaling, direct Docker support.
+2.Render / Railway: Easiest for quick demos.
+3.AWS EC2 / ECS: Full control for enterprise scaling.
 
-Access API:
-
-http://localhost:8000/docs
-
-☁️ Deployment Options
-✔ Google Cloud Run (Recommended)
-
-Fully serverless
-
-Auto-scaling
-
-Free tier handles millions of requests
-
-Direct Docker support
-
-✔ Render / Railway
-
-Very easy deployment
-
-No cloud complexity
-
-✔ AWS EC2 / ECS
-
-More advanced
-
-Full control over VM / containers
-
-📊 Dataset
-
+### 📊 Dataset
 Sentiment140 Dataset (1.6M Tweets)
-Labels:
+* Labels: 0 (Negative), 4 (Positive)
+* Source: Kaggle
 
-0 → Negative
+### 🧠 Skills Demonstrated
+**Category	          Skills**
+**Machine Learning**	Text Cleaning, Tokenization, Transformer Fine-tuning, Evaluation Metrics, Ensemble Learning
+**Backend**           Dev	FastAPI, Async Endpoints, Model Serving
+**DevOps**	          Docker, Containerization, Environment Isolation
+**Frontend**	        Streamlit, Data Visualization
+**Engineering**	      Modular Code Structure, Git Version Control, Clean Documentation
 
-4 → Positive
-
-Source: Kaggle (public)
-
-🧠 Skills Demonstrated
-Machine Learning & NLP
-
-Tweet text cleaning
-
-Tokenization
-
-Transformer model fine-tuning
-
-Model evaluation
-
-Ensemble learning
-
-Inference optimization
-
-Backend Development
-
-FastAPI
-
-Model serving
-
-Production endpoints
-
-Deployment Engineering
-
-Docker
-
-Container orchestration
-
-Cloud deployment (Cloud Run)
-
-Frontend
-
-Streamlit
-
-UI layout and visualization
-
-API communication
-
-Software Engineering Best Practices
-
-Modular project structure
-
-Version control
-
-Environment isolation
-
-Clean documentation
-
-🚀 How to Run the Entire Project
-1. Clone the repository
-git clone <repo-url>
+### 🚀 Quick Start
+1.Clone the repository:
+```Bash
+git clone https://github.com/your-username/sentiment-bert-project.git
 cd sentiment-bert-project
-
-2. Create virtual environment
+```
+2.Create virtual environment:
+```Bash
 python -m venv venv
-venv\Scripts\activate   # Windows
-
-3. Install dependencies
+# Windows
+venv\Scripts\activate
+# Mac/Linux
+source venv/bin/activate
+```
+3.Install dependencies:
+```Bash
 pip install -r requirements.txt
-
-4. Run preprocessing, training, evaluation
-
-(See workflow above)
-
-5. Start FastAPI (through Docker)
+```
+4.Run the pipeline:
+```Bash
+python src/data_preprocessing.py
+python src/train_model.py
+```
+5.Start the API:
+```Bashdocker build -t sentiment-api .
 docker run -p 8000:8000 sentiment-api
+```
 
-📜 License
-
-This project uses the publicly available Sentiment140 dataset from Kaggle.
+**License**: This project uses the publicly available Sentiment140 dataset.
