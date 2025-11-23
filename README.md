@@ -168,5 +168,10 @@ python src/train_model.py
 ```Bashdocker build -t sentiment-api .
 docker run -p 8000:8000 sentiment-api
 ```
+## 🚀 Live Demo
+
+🔗 **Try the App Here:**  
+https://sentiment5analysis.streamlit.app/
+
 
 **License**: This project uses the publicly available Sentiment140 dataset.
